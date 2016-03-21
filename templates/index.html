@@ -1,2 +1,34 @@
-<!--TODO: Make this pretty-->
-<a href="http://localhost:5000/authorize">Click Here</a>
+<html>
+    <head>
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1>Spotify Exporter</h1>
+            </div>
+            <div class="row text-center" style="margin-bottom: 10px">
+                <h2>Login to Spotify</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 text-center">
+                    <div class="alert alert-info" role="alert">Want to export your library? Let's connect to your account.</div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group" role="group">
+                        <a type="button" class="btn btn-primary" href="http://localhost:5000/authorize">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <p class="navbar-text" style="width: 100%; text-align: center">Created by Hannah Spearman</p>
+            </div>
+        </nav>
+    </body>
+</html>

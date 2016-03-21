@@ -1,1 +1,34 @@
-<a href="http://localhost:5000/library">Get my Spotify library as JSON</a>
+<html>
+    <head>
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1>Spotify Exporter</h1>
+            </div>
+            <div class="row text-center" style="margin-bottom: 10px">
+                <h2>Export your Library</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-3 text-center"></div>
+                <div class="col-md-6 text-center">
+                    <div class="alert alert-success" role="alert">Success! Now let's export your library.</div>
+                </div>
+                <div class="col-md-3 text-center"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="btn-group" role="group">
+                        <a type="button" class="btn btn-primary" href="http://localhost:5000/library">Export</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <p class="navbar-text" style="width: 100%; text-align: center">Created by Hannah Spearman</p>
+            </div>
+        </nav>
+    </body>
+</html>

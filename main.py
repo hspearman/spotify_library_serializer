@@ -4,7 +4,7 @@ from datetime import datetime
 
 import flask
 import requests
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, Response
 
 app = Flask(__name__)
 
@@ -36,7 +36,8 @@ def is_user_authorized():
     if "access_token" in session:
 
         # Check if token expired
-        is_expired = datetime.now - session["authorization_timestamp"] < session["expires_in"]
+        time_lapsed = (datetime.now() - session["authorization_timestamp"]).total_seconds()
+        is_expired = time_lapsed >= session["expires_in"]
         if not is_expired:
             is_authorized = True
 
@@ -53,6 +54,8 @@ def index():
     template = 'index.html'
     if is_user_authorized():
         template = 'index_authorized.html'
+
+    # Try to refresh
 
     return render_template(template)
 
@@ -138,7 +141,12 @@ def login():
 @app.route('/library')
 def get_library():
     tracks = get_tracks()
-    return flask.jsonify({'tracks': tracks})
+    return Response(
+        json.dumps(tracks),
+        headers={
+            'Content-Disposition': 'attachment;filename=library.json',
+            'Content-Type': 'application/json'
+        })
 
 
 #
