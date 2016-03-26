@@ -1,0 +1,32 @@
+# General
+CONFIG_FILENAME = 'config.json'
+TRACKS_PER_PAGE = 50
+TRACK_LIMIT_TOTAL = -1
+MAX_API_ATTEMPTS = 3
+
+# API endpoints
+AUTHORIZE_ENDPOINT = ''
+TOKEN_ENDPOINT = ''
+TRACKS_ENDPOINT = ''
+
+# Spotify API info
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+REDIRECT_URI = ''
+
+
+def init(config):
+
+    global CLIENT_ID, \
+        CLIENT_SECRET, \
+        REDIRECT_URI, \
+        AUTHORIZE_ENDPOINT, \
+        TOKEN_ENDPOINT, \
+        TRACKS_ENDPOINT
+
+    CLIENT_ID = config["CLIENT_ID"]
+    CLIENT_SECRET = config["CLIENT_SECRET"]
+    REDIRECT_URI = config["REDIRECT_URI"]
+    AUTHORIZE_ENDPOINT = config["AUTHORIZE_ENDPOINT"]
+    TOKEN_ENDPOINT = config["TOKEN_ENDPOINT"]
+    TRACKS_ENDPOINT = config["TRACKS_ENDPOINT"]
