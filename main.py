@@ -1,10 +1,21 @@
+import uuid
+
 import constants
 import json
-from flask import Flask
+from flask import Flask, session, request
 from api import api
 
 app = Flask(__name__)
 app.register_blueprint(api)
+
+
+#
+# Generates a CSRF token to protect against un-authorized requests
+#
+def generate_csrf_token():
+    if '_csrf_token' not in session:
+        session['_csrf_token'] = str(uuid.uuid4())
+    return session['_csrf_token']
 
 
 #
@@ -40,5 +51,6 @@ def load_config(flask_app):
 if __name__ == '__main__':
 
     load_config(app)
+    app.jinja_env.globals['csrf_token'] = generate_csrf_token
     app.run()
 

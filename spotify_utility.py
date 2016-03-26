@@ -7,7 +7,6 @@ import constants
 
 
 def build_authorization_url():
-    # TODO: Include state to protect against CSRF
     # Build query params
     query_string = urllib.parse.urlencode({
         'client_id': constants.CLIENT_ID,

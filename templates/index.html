@@ -20,7 +20,10 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="btn-group" role="group">
-                        <a type="button" class="btn btn-primary" href="http://localhost:5000/authorize">Login</a>
+                        <form method=post action="http://localhost:5000/authorize">
+                            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                            <input type="submit" class="btn btn-primary" value="Login" />
+                        </form>
                     </div>
                 </div>
             </div>

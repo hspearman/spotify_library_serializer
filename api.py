@@ -1,10 +1,22 @@
 import json
-from flask import render_template, redirect, Response, Blueprint
+from os import abort
+from flask import render_template, redirect, Response, Blueprint, session, request
 from spotify_utility import build_authorization_url, refresh_token, is_token_existent, is_token_expired, get_token, \
     get_tracks
 
 
 api = Blueprint('api', __name__)
+
+
+#
+# Protects against CSRF with every request
+#
+@api.before_request
+def check_csrf_token():
+    if request.method == "POST":
+        token = session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(400)
 
 
 #
@@ -36,7 +48,9 @@ def index():
 #
 # Redirects user to spotify authorization endpoint
 #
-@api.route('/authorize')
+@api.route(
+    '/authorize',
+    methods=['POST'])
 def authorize():
     # Redirect user to spotify authorize page
     spotify_url = build_authorization_url()
