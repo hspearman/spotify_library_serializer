@@ -24,6 +24,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form method=post action="http://localhost:5000/logout" name="logout" style="margin-top: 18px;">
+                        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+                        <a href="#" onclick="document.logout.submit();"><small>Logout of my Spotify account</small></a>
+                    </form>
+                </div>
+            </div>
         </div>
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <div class="container">

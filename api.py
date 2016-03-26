@@ -73,6 +73,18 @@ def login():
 
 
 #
+# Acts as callback for spotify's authorization workflow
+# When called, exchanges code for access token
+#
+@api.route(
+    '/logout',
+    methods=['POST'])
+def logout():
+    session.clear()
+    return redirect("/")
+
+
+#
 # Get user's spotify library
 #
 @api.route('/library')
