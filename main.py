@@ -1,9 +1,11 @@
 import uuid
-
 import constants
 import json
-from flask import Flask, session, request
+from flask import Flask, session
 from api import api
+import logging
+from logging.handlers import SMTPHandler
+
 
 app = Flask(__name__)
 app.register_blueprint(api)
@@ -19,6 +21,22 @@ def generate_csrf_token():
 
 
 #
+# Enables logging that sends error reports to admins
+#
+def enable_logging():
+    if not app.debug:
+        mail_handler = SMTPHandler(
+            mailhost=(constants.SMTP_SERVER, constants.SMTP_PORT),
+            fromaddr=constants.SMTP_EMAIL,
+            toaddrs=constants.ADMIN,
+            subject='Your Application Failed',
+            credentials=(constants.SMTP_EMAIL, constants.SMTP_PASSWORD),
+            secure=())
+        mail_handler.setLevel(logging.ERROR)
+        logging.getLogger().addHandler(mail_handler)
+
+
+#
 # Loads config values for app from file
 #
 def load_config(flask_app):
@@ -29,18 +47,9 @@ def load_config(flask_app):
         config_file = open(constants.CONFIG_FILENAME)
         config_file_contents = config_file.read()
 
-        # Deserialize file contents via JSON
+        # Initialize config via file
         config = json.loads(config_file_contents)
-
-        # Set config variables
-        constants.init({
-            'CLIENT_ID': config["client_id"],
-            'CLIENT_SECRET': config["client_secret"],
-            'REDIRECT_URI': config["redirect_uri"],
-            'AUTHORIZE_ENDPOINT': config["authorize_endpoint"],
-            'TOKEN_ENDPOINT': config["token_endpoint"],
-            'TRACKS_ENDPOINT': config["tracks_endpoint"]
-        })
+        constants.init(config)
 
         flask_app.secret_key = config["secret_key"]
 
@@ -51,6 +60,7 @@ def load_config(flask_app):
 if __name__ == '__main__':
 
     load_config(app)
+    enable_logging()
     app.jinja_env.globals['csrf_token'] = generate_csrf_token
     app.run()
 

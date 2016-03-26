@@ -1,4 +1,5 @@
 import json
+import logging
 import urllib
 from datetime import datetime
 import requests
@@ -104,11 +105,16 @@ def get_tracks():
     next_page = None
     end_of_results = False
     while not end_of_results:
-
         # Get page of tracks
-        results = get_tracks_paged(
-            constants.TRACKS_PER_PAGE,
-            next_page)
+        try:
+            results = get_tracks_paged(
+                constants.TRACKS_PER_PAGE,
+                next_page)
+        # Log error on failure
+        except:
+            logging.getLogger().error(
+                'Failed to get user\'s tracks',
+                exc_info=True)
 
         # Add page of tracks
         tracks = results['items']
